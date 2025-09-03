@@ -1,0 +1,22 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "流体融合",
+  "jei.more_world_crafting.fusion_time": "融合時間: %s秒",
+  "jei.more_world_crafting.fluid_fusion_info": "アイテムは流体内で接触する必要があります",
+  "jei.more_world_crafting.fluid_conversion": "流体変換",
+  "jei.more_world_crafting.success_chance": "成功率: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "アイテムを流体に投げ込んで変換",
+  "jei.more_world_crafting.void_fusion": "虚空投擲",
+  "jei.more_world_crafting.conversion_chance": "変換確率: %s",
+  "jei.more_world_crafting.void_fusion_info": "アイテムを虚空に投げ込んで変換",
+  "jei.more_world_crafting.fire_fusion": "火炎融合",
+  "jei.more_world_crafting.fire_fusion_info": "アイテムを火に投げ込んで変換",
+  "jei.more_world_crafting.lightning_conversion": "雷撃変換",
+  "jei.more_world_crafting.lightning_absorption_chance": "吸収確率: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "変換確率: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "アイテムが雷を引き寄せて変換される可能性があります",
+  "jei.more_world_crafting.explosion_conversion": "爆発変換",
+  "jei.more_world_crafting.explosion_conversion_info": "爆発範囲内のアイテムが変換される可能性があります",
+  "jei.more_world_crafting.crushing_conversion": "粉砕変換",
+  "jei.more_world_crafting.min_height": "最小高度: %sブロック",
+  "jei.more_world_crafting.crushing_conversion_info": "指定した高さから金床が落下してアイテムを粉砕変換"
+}

@@ -1,0 +1,22 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "Слияние Жидкостей",
+  "jei.more_world_crafting.fusion_time": "Время Слияния: %sсекунда",
+  "jei.more_world_crafting.fluid_fusion_info": "Предметы должны соприкасаться в жидкости",
+  "jei.more_world_crafting.fluid_conversion": "Преобразование Жидкостей",
+  "jei.more_world_crafting.success_chance": "Шанс Успеха: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "Бросьте предметы в жидкость для преобразования",
+  "jei.more_world_crafting.void_fusion": "Бросок в Пустоту",
+  "jei.more_world_crafting.conversion_chance": "Шанс Преобразования: %s",
+  "jei.more_world_crafting.void_fusion_info": "Бросьте предметы в пустоту для преобразования",
+  "jei.more_world_crafting.fire_fusion": "Огненное Слияние",
+  "jei.more_world_crafting.fire_fusion_info": "Бросьте предметы в огонь для преобразования",
+  "jei.more_world_crafting.lightning_conversion": "Молниевое Преобразование",
+  "jei.more_world_crafting.lightning_absorption_chance": "Шанс Поглощения: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "Шанс Преобразования: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "Предметы могут притянуть молнию для преобразования",
+  "jei.more_world_crafting.explosion_conversion": "Взрывное Преобразование",
+  "jei.more_world_crafting.explosion_conversion_info": "Предметы в радиусе взрыва могут быть преобразованы",
+  "jei.more_world_crafting.crushing_conversion": "Дробящее Преобразование",
+  "jei.more_world_crafting.min_height": "Мин. Высота: %s блоков",
+  "jei.more_world_crafting.crushing_conversion_info": "Наковальня падает с указанной высоты, чтобы раздробить предметы"
+}

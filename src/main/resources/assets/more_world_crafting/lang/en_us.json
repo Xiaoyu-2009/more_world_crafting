@@ -1,0 +1,22 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "Fluid Fusion",
+  "jei.more_world_crafting.fusion_time": "Fusion Time: %ssecond",
+  "jei.more_world_crafting.fluid_fusion_info": "Items must touch in fluid",
+  "jei.more_world_crafting.fluid_conversion": "Fluid Conversion",
+  "jei.more_world_crafting.success_chance": "Success Rate: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "Throw items into fluid for conversion",
+  "jei.more_world_crafting.void_fusion": "Void Throwing",
+  "jei.more_world_crafting.conversion_chance": "Conversion Chance: %s",
+  "jei.more_world_crafting.void_fusion_info": "Throw items into void for conversion",
+  "jei.more_world_crafting.fire_fusion": "Fire Fusion",
+  "jei.more_world_crafting.fire_fusion_info": "Throw items into fire for conversion",
+  "jei.more_world_crafting.lightning_conversion": "Lightning Conversion",
+  "jei.more_world_crafting.lightning_absorption_chance": "Absorption Chance: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "Conversion Chance: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "Items have a chance to attract lightning for conversion",
+  "jei.more_world_crafting.explosion_conversion": "Explosion Conversion",
+  "jei.more_world_crafting.explosion_conversion_info": "Items within explosion range have a chance to be converted",
+  "jei.more_world_crafting.crushing_conversion": "Crushing Conversion",
+  "jei.more_world_crafting.min_height": "Min Height: %s blocks",
+  "jei.more_world_crafting.crushing_conversion_info": "Anvil falls from specified height to crush items for conversion"
+}

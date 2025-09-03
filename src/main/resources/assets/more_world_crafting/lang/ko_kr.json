@@ -1,0 +1,22 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "유체 융합",
+  "jei.more_world_crafting.fusion_time": "융합 시간: %s초",
+  "jei.more_world_crafting.fluid_fusion_info": "아이템이 유체 내에서 접촉해야 합니다",
+  "jei.more_world_crafting.fluid_conversion": "유체 변환",
+  "jei.more_world_crafting.success_chance": "성공률: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "아이템을 유체에 던져서 변환",
+  "jei.more_world_crafting.void_fusion": "공허 투척",
+  "jei.more_world_crafting.conversion_chance": "변환 확률: %s",
+  "jei.more_world_crafting.void_fusion_info": "아이템을 공허에 던져서 변환",
+  "jei.more_world_crafting.fire_fusion": "화염 융합",
+  "jei.more_world_crafting.fire_fusion_info": "아이템을 불에 던져서 변환",
+  "jei.more_world_crafting.lightning_conversion": "번개 변환",
+  "jei.more_world_crafting.lightning_absorption_chance": "흡수 확률: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "변환 확률: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "아이템이 번개를 끌어당겨 변환될 가능성이 있습니다",
+  "jei.more_world_crafting.explosion_conversion": "폭발 변환",
+  "jei.more_world_crafting.explosion_conversion_info": "폭발 범위 내의 아이템이 변환될 가능성이 있습니다",
+  "jei.more_world_crafting.crushing_conversion": "분쇄 변환",
+  "jei.more_world_crafting.min_height": "최소 높이: %s블록",
+  "jei.more_world_crafting.crushing_conversion_info": "지정된 높이에서 모루가 떨어져 아이템을 분쇄 변환"
+}

@@ -1,0 +1,22 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "Fusión de Fluidos",
+  "jei.more_world_crafting.fusion_time": "Tiempo de Fusión: %ssegundo",
+  "jei.more_world_crafting.fluid_fusion_info": "Los objetos deben tocarse en el fluido",
+  "jei.more_world_crafting.fluid_conversion": "Conversión de Fluidos",
+  "jei.more_world_crafting.success_chance": "Tasa de Éxito: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "Arroja objetos al fluido para conversión",
+  "jei.more_world_crafting.void_fusion": "Lanzamiento al Vacío",
+  "jei.more_world_crafting.conversion_chance": "Probabilidad de Conversión: %s",
+  "jei.more_world_crafting.void_fusion_info": "Arroja objetos al vacío para conversión",
+  "jei.more_world_crafting.fire_fusion": "Fusión por Fuego",
+  "jei.more_world_crafting.fire_fusion_info": "Arroja objetos al fuego para conversión",
+  "jei.more_world_crafting.lightning_conversion": "Conversión por Rayo",
+  "jei.more_world_crafting.lightning_absorption_chance": "Probabilidad de Absorción: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "Probabilidad de Conversión: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "Los objetos tienen posibilidad de atraer rayos para conversión",
+  "jei.more_world_crafting.explosion_conversion": "Conversión por Explosión",
+  "jei.more_world_crafting.explosion_conversion_info": "Objetos en el rango de explosión pueden ser convertidos",
+  "jei.more_world_crafting.crushing_conversion": "Conversión por Aplastamiento",
+  "jei.more_world_crafting.min_height": "Altura Mín: %s bloques",
+  "jei.more_world_crafting.crushing_conversion_info": "El yunque cae desde la altura especificada para aplastar objetos"
+}

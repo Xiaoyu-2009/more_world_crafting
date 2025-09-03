@@ -1,0 +1,21 @@
+{
+  "jei.more_world_crafting.fluid_fusion": "流体融合",
+  "jei.more_world_crafting.fusion_time": "融合时间: %s秒",
+  "jei.more_world_crafting.fluid_fusion_info": "物品需要在流体中接触",
+  "jei.more_world_crafting.fluid_conversion": "流体转换",
+  "jei.more_world_crafting.conversion_chance": "转换概率: %s",
+  "jei.more_world_crafting.fluid_conversion_info": "将物品丢入流体中进行转换",
+  "jei.more_world_crafting.void_fusion": "虚空转换",
+  "jei.more_world_crafting.void_fusion_info": "将物品丢入虚空中进行转换",
+  "jei.more_world_crafting.fire_fusion": "火焰转换",
+  "jei.more_world_crafting.fire_fusion_info": "将物品丢入火焰中进行转换",
+  "jei.more_world_crafting.lightning_conversion": "闪电转换",
+  "jei.more_world_crafting.lightning_absorption_chance": "吸引概率: %s",
+  "jei.more_world_crafting.lightning_conversion_chance": "转换概率: %s",
+  "jei.more_world_crafting.lightning_conversion_info": "物品有概率吸引闪电进行转换",
+  "jei.more_world_crafting.explosion_conversion": "爆炸转换",
+  "jei.more_world_crafting.explosion_conversion_info": "物品在爆炸范围内有概率进行转换",
+  "jei.more_world_crafting.crushing_conversion": "粉碎转换",
+  "jei.more_world_crafting.min_height": "最小高度: %s格",
+  "jei.more_world_crafting.crushing_conversion_info": "铁砧从指定高度落下砸中物品进行转换"
+}
