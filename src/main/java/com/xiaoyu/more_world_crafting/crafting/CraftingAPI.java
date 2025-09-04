@@ -1,6 +1,7 @@
 package com.xiaoyu.more_world_crafting.crafting;
 
 import com.xiaoyu.more_world_crafting.config.ModConfig;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -44,5 +45,24 @@ public class CraftingAPI {
         if (ModConfig.FLUID_FUSION_INVULNERABLE_ENABLED.get()) {
             inputItem.setInvulnerable(true);
         }
+    }
+
+    public static int calculateSuccessfulConversions(int totalCount, float conversionChance, ServerLevel level) {
+        if (conversionChance >= 1.0f) {
+            return totalCount;
+        }
+        
+        if (conversionChance <= 0.0f) {
+            return 0;
+        }
+        
+        int successfulConversions = 0;
+        for (int i = 0; i < totalCount; i++) {
+            if (level.random.nextFloat() < conversionChance) {
+                successfulConversions++;
+            }
+        }
+        
+        return successfulConversions;
     }
 }

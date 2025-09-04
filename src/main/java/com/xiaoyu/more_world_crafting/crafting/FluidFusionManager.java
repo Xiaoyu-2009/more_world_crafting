@@ -1,7 +1,13 @@
 package com.xiaoyu.more_world_crafting.crafting;
 
-import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.xiaoyu.more_world_crafting.recipe.FluidFusionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -10,8 +16,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.*;
 
 public class FluidFusionManager {
     private static final Map<String, Integer> activeFusions = new HashMap<>();
@@ -114,6 +118,18 @@ public class FluidFusionManager {
         return true;
     }
     
+    private static int getRequiredCount(Ingredient ingredient, ItemStack stack) {
+        ItemStack[] possibleItems = ingredient.getItems();
+        if (possibleItems.length > 0) {
+            for (ItemStack possibleItem : possibleItems) {
+                if (ItemStack.isSameItemSameTags(stack, possibleItem)) {
+                    return Math.max(1, possibleItem.getCount());
+                }
+            }
+        }
+        return 1;
+    }
+    
     private static boolean canMakeRecipe(List<ItemEntity> items, List<Ingredient> ingredients) {
         List<ItemStack> availableStacks = new ArrayList<>();
         for (ItemEntity item : items) {
@@ -125,16 +141,7 @@ public class FluidFusionManager {
             for (int i = 0; i < availableStacks.size(); i++) {
                 ItemStack stack = availableStacks.get(i);
                 if (!stack.isEmpty() && ingredient.test(stack)) {
-                    int requiredCount = 1;
-                    ItemStack[] possibleItems = ingredient.getItems();
-                    if (possibleItems.length > 0) {
-                        for (ItemStack possibleItem : possibleItems) {
-                            if (ItemStack.isSameItemSameTags(stack, possibleItem)) {
-                                requiredCount = possibleItem.getCount();
-                                break;
-                            }
-                        }
-                    }
+                    int requiredCount = getRequiredCount(ingredient, stack);
                     
                     if (stack.getCount() >= requiredCount) {
                         stack.shrink(requiredCount);
@@ -174,16 +181,7 @@ public class FluidFusionManager {
             ItemEntity item = itemsToConsume.get(i);
             Ingredient ingredient = recipe.getIngredients().get(i);
             
-            int requiredCount = 1;
-            ItemStack[] possibleItems = ingredient.getItems();
-            if (possibleItems.length > 0) {
-                for (ItemStack possibleItem : possibleItems) {
-                    if (ItemStack.isSameItemSameTags(item.getItem(), possibleItem)) {
-                        requiredCount = possibleItem.getCount();
-                        break;
-                    }
-                }
-            }
+            int requiredCount = getRequiredCount(ingredient, item.getItem());
             
             ItemStack stack = item.getItem();
             stack.shrink(requiredCount);
@@ -210,16 +208,7 @@ public class FluidFusionManager {
             for (int i = 0; i < availableItems.size(); i++) {
                 ItemEntity item = availableItems.get(i);
                 if (item != null && !item.getItem().isEmpty() && ingredient.test(item.getItem())) {
-                    int requiredCount = 1;
-                    ItemStack[] possibleItems = ingredient.getItems();
-                    if (possibleItems.length > 0) {
-                        for (ItemStack possibleItem : possibleItems) {
-                            if (ItemStack.isSameItemSameTags(item.getItem(), possibleItem)) {
-                                requiredCount = possibleItem.getCount();
-                                break;
-                            }
-                        }
-                    }
+                    int requiredCount = getRequiredCount(ingredient, item.getItem());
                     
                     if (item.getItem().getCount() >= requiredCount) {
                         result.add(item);

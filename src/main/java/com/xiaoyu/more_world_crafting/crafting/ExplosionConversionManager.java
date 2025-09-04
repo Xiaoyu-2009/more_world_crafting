@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.resources.ResourceLocation;
+import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
+import com.xiaoyu.more_world_crafting.recipe.ExplosionConversionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,9 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
-import com.xiaoyu.more_world_crafting.recipe.ExplosionConversionRecipe;
-import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
 
 @Mod.EventBusSubscriber(modid = MoreWorldCrafting.MODID)
 public class ExplosionConversionManager {
@@ -123,7 +123,9 @@ public class ExplosionConversionManager {
             return false;
         }
 
-        if (level.random.nextFloat() > recipe.getConversionChance()) {
+        int successfulConversions = CraftingAPI.calculateSuccessfulConversions(inputCount, recipe.getConversionChance(), level);
+        
+        if (successfulConversions <= 0) {
             return false;
         }
         
@@ -133,7 +135,7 @@ public class ExplosionConversionManager {
         }
 
         int resultPerInput = result.getCount();
-        int totalResultCount = Math.max(1, inputCount * resultPerInput);
+        int totalResultCount = Math.max(1, successfulConversions * resultPerInput);
         result.setCount(totalResultCount);
 
         ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, position, result, null, EXPLOSION_JUMP_HEIGHT);

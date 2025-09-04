@@ -1,22 +1,23 @@
 package com.xiaoyu.more_world_crafting.crafting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.ArrayList;
 
 import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
 import com.xiaoyu.more_world_crafting.recipe.VoidFusionRecipe;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
 
 public class VoidFusionManager {
@@ -105,7 +106,9 @@ public class VoidFusionManager {
             return false;
         }
 
-        if (level.random.nextFloat() > recipe.getConversionChance()) {
+        int successfulConversions = CraftingAPI.calculateSuccessfulConversions(inputCount, recipe.getConversionChance(), level);
+        
+        if (successfulConversions <= 0) {
             return false;
         }
         
@@ -115,7 +118,7 @@ public class VoidFusionManager {
         }
 
         int resultPerInput = result.getCount();
-        int totalResultCount = Math.max(1, inputCount * resultPerInput);
+        int totalResultCount = Math.max(1, successfulConversions * resultPerInput);
         result.setCount(totalResultCount);
 
         if (targetPlayer != null && targetPlayer.isAlive()) {

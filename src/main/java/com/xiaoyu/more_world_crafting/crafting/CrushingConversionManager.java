@@ -144,11 +144,9 @@ public class CrushingConversionManager {
             CrushingConversionRecipe recipe = findMatchingRecipe(level, item, fallingBlock);
             
             if (recipe != null && fallDistance >= recipe.getMinHeight()) {
-                if (shouldPerformConversion(recipe)) {
-                    executeConversion(level, item, recipe);
-                    fallData.processed = true;
-                    return true;
-                }
+                executeConversion(level, item, recipe);
+                fallData.processed = true;
+                return true;
             }
         }
         
@@ -213,23 +211,20 @@ public class CrushingConversionManager {
         return allRecipes;
     }
     
-    private static boolean shouldPerformConversion(CrushingConversionRecipe recipe) {
-        float conversionChance = recipe.getConversionChance();
-        
-        if (conversionChance >= 1.0f) {
-            return true;
-        }
-        
-        return Math.random() < conversionChance;
-    }
-    
     private static void executeConversion(ServerLevel level, ItemEntity originalItem, CrushingConversionRecipe recipe) {
         ItemStack inputStack = originalItem.getItem();
+        int inputCount = inputStack.getCount();
+        
+        int successfulConversions = CraftingAPI.calculateSuccessfulConversions(inputCount, recipe.getConversionChance(), level);
+        
+        if (successfulConversions <= 0) {
+            return;
+        }
+        
         ItemStack outputStack = recipe.getResultItem(level.registryAccess()).copy();
         
-        int inputCount = inputStack.getCount();
         int outputCount = outputStack.getCount();
-        outputStack.setCount(outputCount * inputCount);
+        outputStack.setCount(outputCount * successfulConversions);
         
         Vec3 position = originalItem.position();
         

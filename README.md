@@ -268,7 +268,7 @@ MoreWorldCrafting.fluidFusion.addRecipe("netherite_fusion", // Recipe name
     [<item:minecraft:iron_ingot>, <item:minecraft:gold_ingot>], // Input items
     <item:minecraft:diamond>, // Output item
     40, // Fusion time required [ticks]
-    'minecraft:water'
+    'minecraft:water'// Specify the fluid
 );
 
 // 2. Fluid Conversion [Recipe Example]
@@ -278,7 +278,7 @@ MoreWorldCrafting.fluidConversion.addRecipe("cobblestone_to_obsidian", // Recipe
     <item:minecraft:cobblestone>, // Input item
     <item:minecraft:obsidian>, // Output item
     0.1, // Conversion success rate [percentage]
-    'minecraft:lava'
+    'minecraft:lava' // Specify the fluid
 );
 
 // 3. Void Conversion [Recipe Example]

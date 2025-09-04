@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xiaoyu.more_world_crafting.config.ModConfig;
+import com.xiaoyu.more_world_crafting.recipe.LightningConversionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -13,9 +17,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import com.xiaoyu.more_world_crafting.config.ModConfig;
-import com.xiaoyu.more_world_crafting.recipe.LightningConversionRecipe;
-import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
 
 public class LightningConversionManager {
     private static final Map<ResourceLocation, LightningConversionRecipe> customRecipes = new HashMap<>();
@@ -43,11 +44,8 @@ public class LightningConversionManager {
                 if (shouldCreateLightning) {
                     createLightning(serverLevel, item.position());
                     
-                    boolean shouldConvert = serverLevel.random.nextFloat() < recipe.getConversionChance();
-                    if (shouldConvert) {
-                        if (convertItem(serverLevel, item, recipe)) {
-                            item.discard();
-                        }
+                    if (convertItem(serverLevel, item, recipe)) {
+                        item.discard();
                     }
                 }
             }
@@ -66,10 +64,18 @@ public class LightningConversionManager {
     }
 
     private static boolean convertItem(ServerLevel level, ItemEntity item, LightningConversionRecipe recipe) {
+        int inputCount = item.getItem().getCount();
+        
+        int successfulConversions = CraftingAPI.calculateSuccessfulConversions(inputCount, recipe.getConversionChance(), level);
+        
+        if (successfulConversions <= 0) {
+            return false;
+        }
+        
         ItemStack result = recipe.getResultItem(level.registryAccess()).copy();
         if (result.isEmpty()) return false;
 
-        result.setCount(item.getItem().getCount() * result.getCount());
+        result.setCount(successfulConversions * result.getCount());
 
         ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, item.position(), result, item, 0.3);
         

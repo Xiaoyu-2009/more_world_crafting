@@ -1,14 +1,15 @@
 package com.xiaoyu.more_world_crafting.crafting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.ArrayList;
 
 import com.xiaoyu.more_world_crafting.recipe.FireFusionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -105,7 +106,9 @@ public class FireFusionManager {
             return false;
         }
 
-        if (level.random.nextFloat() > recipe.getConversionChance()) {
+        int successfulConversions = CraftingAPI.calculateSuccessfulConversions(inputCount, recipe.getConversionChance(), level);
+        
+        if (successfulConversions <= 0) {
             return false;
         }
         
@@ -115,7 +118,7 @@ public class FireFusionManager {
         }
 
         int resultPerInput = result.getCount();
-        int totalResultCount = Math.max(1, inputCount * resultPerInput);
+        int totalResultCount = Math.max(1, successfulConversions * resultPerInput);
         result.setCount(totalResultCount);
 
         ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, position, result, null, FIRE_JUMP_HEIGHT);
