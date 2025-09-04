@@ -102,7 +102,7 @@ MoreWorldCrafting.fluidFusion.addRecipe("netherite_fusion", // 配方名称
     [<item:minecraft:iron_ingot>, <item:minecraft:gold_ingot>], // 输入物品
     <item:minecraft:diamond>, // 输出物品
     40, // 融合所需时间[tick]
-    'minecraft:water'
+    'minecraft:water' // 指定流体
 );
 
 // 2. 流体转换[配方示例]
@@ -112,7 +112,7 @@ MoreWorldCrafting.fluidConversion.addRecipe("cobblestone_to_obsidian", // 配方
     <item:minecraft:cobblestone>, // 输入物品
     <item:minecraft:obsidian>, // 输出物品
     0.1, // 转换成功率[百分比]
-    'minecraft:lava'
+    'minecraft:lava' // 指定流体
 );
 
 // 3. 虚空转换[配方示例]
