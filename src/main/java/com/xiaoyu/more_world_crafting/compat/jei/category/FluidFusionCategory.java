@@ -146,8 +146,10 @@ public class FluidFusionCategory implements IRecipeCategory<FluidFusionRecipe> {
         for (int i = 0; i < Math.min(ingredientCount, 8); i++) {
             int x = positions[i][0];
             int y = positions[i][1];
+            
+            net.minecraft.world.item.crafting.Ingredient ingredient = recipe.getIngredients().get(i);
             builder.addSlot(RecipeIngredientRole.INPUT, x, y)
-                .addIngredients(VanillaTypes.ITEM_STACK, Arrays.asList(recipe.getIngredients().get(i).getItems()));
+                .addIngredients(VanillaTypes.ITEM_STACK, Arrays.asList(ingredient.getItems()));
         }
 
         FluidStack requiredFluidStack = new FluidStack(recipe.getRequiredFluid(), 1000);

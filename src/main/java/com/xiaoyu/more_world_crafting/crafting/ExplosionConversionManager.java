@@ -47,13 +47,23 @@ public class ExplosionConversionManager {
             data.tickCount++;
             
             if (data.tickCount >= CONVERSION_DELAY) {
-                performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
-
+                ItemEntity targetItem = null;
                 for (var entity : level.getAllEntities()) {
-                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId)) {
-                        item.discard();
+                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId) && !item.isRemoved()) {
+                        targetItem = item;
                         break;
                     }
+                }
+                
+                if (targetItem != null) {
+                    boolean conversionSuccess = performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
+                    if (conversionSuccess) {
+                        targetItem.discard();
+                    } else {
+                        targetItem.setInvulnerable(false);
+                    }
+                } else {
+                    performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
                 }
 
                 iterator.remove();
@@ -100,6 +110,7 @@ public class ExplosionConversionManager {
                 if (!pendingConversions.containsKey(itemId)) {
                     Player targetPlayer = getItemThrower(itemEntity);
                     pendingConversions.put(itemId, new ConversionData(itemId, targetPlayer, recipe, itemEntity.getItem().copy(), itemEntity.position()));
+                    itemEntity.setInvulnerable(true);
                 }
             }
         }

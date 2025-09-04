@@ -31,8 +31,7 @@ public class VoidFusionManager {
 
         for (var entity : serverLevel.getAllEntities()) {
             if (!(entity instanceof ItemEntity item)) continue;
-            if (item.getItem().isEmpty()) continue;
-            if (!isInVoid(item.position())) continue;
+            if (item.isRemoved() || item.getItem().isEmpty() || !isInVoid(item.position())) continue;
             
             VoidFusionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
             if (recipe != null) {
@@ -57,13 +56,17 @@ public class VoidFusionManager {
             data.tickCount++;
             
             if (data.tickCount >= CONVERSION_DELAY) {
-                performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
-
+                boolean itemFound = false;
                 for (var entity : level.getAllEntities()) {
-                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId)) {
+                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId) && !item.isRemoved()) {
                         item.discard();
+                        itemFound = true;
                         break;
                     }
+                }
+                
+                if (itemFound) {
+                    performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
                 }
 
                 iterator.remove();

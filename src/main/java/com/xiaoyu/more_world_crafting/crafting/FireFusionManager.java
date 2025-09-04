@@ -30,7 +30,7 @@ public class FireFusionManager {
 
         for (var entity : serverLevel.getAllEntities()) {
             if (!(entity instanceof ItemEntity item)) continue;
-            if (item.getItem().isEmpty()) continue;
+            if (item.isRemoved() || item.getItem().isEmpty()) continue;
             
             FireFusionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem(), item.position());
             if (recipe != null) {
@@ -56,13 +56,17 @@ public class FireFusionManager {
             data.tickCount++;
             
             if (data.tickCount >= CONVERSION_DELAY) {
-                performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
-
+                boolean itemFound = false;
                 for (var entity : level.getAllEntities()) {
-                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId)) {
+                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId) && !item.isRemoved()) {
                         item.discard();
+                        itemFound = true;
                         break;
                     }
+                }
+                
+                if (itemFound) {
+                    performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
                 }
 
                 iterator.remove();
@@ -170,11 +174,10 @@ public class FireFusionManager {
 
     private static void processJumpingOutputItems(ServerLevel level) {
         for (var entity : level.getAllEntities()) {
-            if (entity instanceof ItemEntity item && 
-                item.isInvulnerable() && 
-                isOnFire(level, item.position())) {
-                performFireJump(item);
-            }
+            if (!(entity instanceof ItemEntity item)) continue;
+            if (item.isRemoved() || !item.isInvulnerable() || !isOnFire(level, item.position())) continue;
+            
+            performFireJump(item);
         }
     }
 

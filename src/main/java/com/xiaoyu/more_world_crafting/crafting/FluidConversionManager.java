@@ -30,7 +30,7 @@ public class FluidConversionManager {
 
         for (var entity : serverLevel.getAllEntities()) {
             if (!(entity instanceof ItemEntity item)) continue;
-            if (item.getItem().isEmpty()) continue;
+            if (item.isRemoved() || item.getItem().isEmpty()) continue;
             
             FluidConversionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
             if (recipe != null && isInCorrectFluid(serverLevel, item.position(), recipe)) {
@@ -56,13 +56,17 @@ public class FluidConversionManager {
             data.tickCount++;
             
             if (data.tickCount >= CONVERSION_DELAY) {
-                performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
-
+                boolean itemFound = false;
                 for (var entity : level.getAllEntities()) {
-                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId)) {
+                    if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId) && !item.isRemoved()) {
                         item.discard();
+                        itemFound = true;
                         break;
                     }
+                }
+                
+                if (itemFound) {
+                    performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
                 }
 
                 iterator.remove();
@@ -142,12 +146,12 @@ public class FluidConversionManager {
 
     private static void processJumpingOutputItems(ServerLevel level) {
         for (var entity : level.getAllEntities()) {
-            if (entity instanceof ItemEntity item && 
-                item.isInvulnerable()) {
-                BlockPos pos = item.blockPosition();
-                if (level.getFluidState(pos).is(Fluids.LAVA) || level.getFluidState(pos.below()).is(Fluids.LAVA)) {
-                    performLavaJump(item);
-                }
+            if (!(entity instanceof ItemEntity item)) continue;
+            if (item.isRemoved() || !item.isInvulnerable()) continue;
+            
+            BlockPos pos = item.blockPosition();
+            if (level.getFluidState(pos).is(Fluids.LAVA) || level.getFluidState(pos.below()).is(Fluids.LAVA)) {
+                performLavaJump(item);
             }
         }
     }

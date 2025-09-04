@@ -125,12 +125,25 @@ public class FluidFusionManager {
             for (int i = 0; i < availableStacks.size(); i++) {
                 ItemStack stack = availableStacks.get(i);
                 if (!stack.isEmpty() && ingredient.test(stack)) {
-                    stack.shrink(1);
-                    if (stack.isEmpty()) {
-                        availableStacks.remove(i);
+                    int requiredCount = 1;
+                    ItemStack[] possibleItems = ingredient.getItems();
+                    if (possibleItems.length > 0) {
+                        for (ItemStack possibleItem : possibleItems) {
+                            if (ItemStack.isSameItemSameTags(stack, possibleItem)) {
+                                requiredCount = possibleItem.getCount();
+                                break;
+                            }
+                        }
                     }
-                    found = true;
-                    break;
+                    
+                    if (stack.getCount() >= requiredCount) {
+                        stack.shrink(requiredCount);
+                        if (stack.isEmpty()) {
+                            availableStacks.remove(i);
+                        }
+                        found = true;
+                        break;
+                    }
                 }
             }
             if (!found) {
@@ -157,9 +170,23 @@ public class FluidFusionManager {
         centerY /= itemsToConsume.size();
         centerZ /= itemsToConsume.size();
         
-        for (ItemEntity item : itemsToConsume) {
+        for (int i = 0; i < itemsToConsume.size(); i++) {
+            ItemEntity item = itemsToConsume.get(i);
+            Ingredient ingredient = recipe.getIngredients().get(i);
+            
+            int requiredCount = 1;
+            ItemStack[] possibleItems = ingredient.getItems();
+            if (possibleItems.length > 0) {
+                for (ItemStack possibleItem : possibleItems) {
+                    if (ItemStack.isSameItemSameTags(item.getItem(), possibleItem)) {
+                        requiredCount = possibleItem.getCount();
+                        break;
+                    }
+                }
+            }
+            
             ItemStack stack = item.getItem();
-            stack.shrink(1);
+            stack.shrink(requiredCount);
             if (stack.isEmpty()) {
                 item.discard();
             } else {
@@ -183,10 +210,23 @@ public class FluidFusionManager {
             for (int i = 0; i < availableItems.size(); i++) {
                 ItemEntity item = availableItems.get(i);
                 if (item != null && !item.getItem().isEmpty() && ingredient.test(item.getItem())) {
-                    result.add(item);
-                    availableItems.set(i, null);
-                    found = true;
-                    break;
+                    int requiredCount = 1;
+                    ItemStack[] possibleItems = ingredient.getItems();
+                    if (possibleItems.length > 0) {
+                        for (ItemStack possibleItem : possibleItems) {
+                            if (ItemStack.isSameItemSameTags(item.getItem(), possibleItem)) {
+                                requiredCount = possibleItem.getCount();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (item.getItem().getCount() >= requiredCount) {
+                        result.add(item);
+                        availableItems.set(i, null);
+                        found = true;
+                        break;
+                    }
                 }
             }
             if (!found) {
