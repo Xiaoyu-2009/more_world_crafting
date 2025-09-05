@@ -6,7 +6,7 @@
 
 ### Mod Overview
 
-**This mod adds 7 crafting types to Minecraft, supporting both [KubeJS](https://kubejs.com/wiki/tutorials) and [CraftTweaker](https://docs.blamejared.com/1.20.1) scripting.**
+**This mod adds multiple crafting types to Minecraft, supporting scripting with [KubeJS](https://kubejs.com/wiki/tutorials) and [CraftTweaker](https://docs.blamejared.com/1.20.1) scripting.**
 
 ### Crafting Types
 
@@ -24,7 +24,7 @@
 
 ### 模组简介
 
-**模组为我的世界添加了7种合成类型, 支持使用[KubeJS](https://kubejs.com/wiki/tutorials)和[CraftTweaker](https://docs.blamejared.com/1.20.1)编写。**
+**模组为我的世界添加了多种合成类型, 支持使用[KubeJS](https://kubejs.com/wiki/tutorials)和[CraftTweaker](https://docs.blamejared.com/1.20.1)编写。**
 
 ### 合成类型
 
