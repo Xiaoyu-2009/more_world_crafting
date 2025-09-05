@@ -1,9 +1,9 @@
 package com.xiaoyu.more_world_crafting.compat.crafttweaker;
 
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
-import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.FireFusionManager;
+import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.FireConversionManager;
 import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.FluidFusionManager;
-import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.VoidFusionManager;
+import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.VoidConversionManager;
 import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.FluidConversionManager;
 import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.LightningConversionManager;
 import com.xiaoyu.more_world_crafting.compat.crafttweaker.managers.ExplosionConversionManager;
@@ -15,13 +15,13 @@ import org.openzen.zencode.java.ZenCodeType;
 public class MoreWorldCraftingCrT {
     
     @ZenCodeType.Field
-    public static final FireFusionManager fireFusion = new FireFusionManager();
+    public static final FireConversionManager fireConversion = new FireConversionManager();
     
     @ZenCodeType.Field  
     public static final FluidFusionManager fluidFusion = new FluidFusionManager();
     
     @ZenCodeType.Field
-    public static final VoidFusionManager voidFusion = new VoidFusionManager();
+    public static final VoidConversionManager voidConversion = new VoidConversionManager();
     
     @ZenCodeType.Field
     public static final FluidConversionManager fluidConversion = new FluidConversionManager();

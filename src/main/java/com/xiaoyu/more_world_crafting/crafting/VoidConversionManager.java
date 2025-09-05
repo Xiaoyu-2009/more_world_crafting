@@ -7,34 +7,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.xiaoyu.more_world_crafting.recipe.FluidConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
+import com.xiaoyu.more_world_crafting.recipe.VoidConversionRecipe;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
-public class FluidConversionManager {
+public class VoidConversionManager {
     private static final Map<UUID, ConversionData> pendingConversions = new HashMap<>();
-    private static final Map<ResourceLocation, FluidConversionRecipe> customRecipes = new HashMap<>();
-    private static final double LAVA_JUMP_HEIGHT = 0.8;
-    private static final int CONVERSION_DELAY = 20;
+    private static final Map<ResourceLocation, VoidConversionRecipe> customRecipes = new HashMap<>();
+    private static final double VOID_TELEPORT_HEIGHT = 10.0;
+    private static final int CONVERSION_DELAY = 10;
+    private static final double VOID_THRESHOLD = -65.0;
 
     public static void tick(Level level) {
         if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
 
         for (var entity : serverLevel.getAllEntities()) {
             if (!(entity instanceof ItemEntity item)) continue;
-            if (item.isRemoved() || item.getItem().isEmpty()) continue;
+            if (item.isRemoved() || item.getItem().isEmpty() || !isInVoid(item.position())) continue;
             
-            FluidConversionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
-            if (recipe != null && isInCorrectFluid(serverLevel, item.position(), recipe)) {
+            VoidConversionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
+            if (recipe != null) {
                 UUID itemId = item.getUUID();
                 if (!pendingConversions.containsKey(itemId)) {
                     Player targetPlayer = getItemThrower(item);
@@ -44,7 +45,6 @@ public class FluidConversionManager {
         }
 
         processConversions(serverLevel);
-        processJumpingOutputItems(serverLevel);
     }
 
     private static void processConversions(ServerLevel level) {
@@ -82,15 +82,15 @@ public class FluidConversionManager {
         return null;
     }
 
-    private static FluidConversionRecipe findMatchingRecipe(ServerLevel level, ItemStack itemStack) {
-        List<FluidConversionRecipe> allRecipes = new ArrayList<>();
+    private static VoidConversionRecipe findMatchingRecipe(ServerLevel level, ItemStack itemStack) {
+        List<VoidConversionRecipe> allRecipes = new ArrayList<>();
         
-        List<FluidConversionRecipe> datapackRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.FLUID_CONVERSION.get());
+        List<VoidConversionRecipe> datapackRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.VOID_CONVERSION.get());
         allRecipes.addAll(datapackRecipes);
         
         allRecipes.addAll(customRecipes.values());
         
-        for (FluidConversionRecipe recipe : allRecipes) {
+        for (VoidConversionRecipe recipe : allRecipes) {
             if (recipe.getIngredient().test(itemStack)) {
                 return recipe;
             }
@@ -99,7 +99,7 @@ public class FluidConversionManager {
         return null;
     }
 
-    private static boolean performConversion(ServerLevel level, ItemStack originalStack, FluidConversionRecipe recipe, Player targetPlayer, Vec3 position) {
+    private static boolean performConversion(ServerLevel level, ItemStack originalStack, VoidConversionRecipe recipe, Player targetPlayer, Vec3 position) {
         int inputCount = originalStack.getCount();
         
         if (inputCount <= 0) {
@@ -121,45 +121,31 @@ public class FluidConversionManager {
         int totalResultCount = Math.max(1, successfulConversions * resultPerInput);
         result.setCount(totalResultCount);
 
-        ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, position, result, null, LAVA_JUMP_HEIGHT);
-        
-        return level.addFreshEntity(resultEntity);
-    }
-
-    private static boolean isInCorrectFluid(ServerLevel level, Vec3 position, FluidConversionRecipe recipe) {
-        BlockPos pos = BlockPos.containing(position);
-        BlockPos posBelow = pos.below();
-        
-        return 
-        level.getFluidState(pos).is(recipe.getRequiredFluid()) || 
-        level.getFluidState(posBelow).is(recipe.getRequiredFluid());
-    }
-
-    private static void performLavaJump(ItemEntity itemEntity) {
-        Vec3 velocity = itemEntity.getDeltaMovement();
-        Vec3 jumpVelocity = new Vec3(
-            velocity.x,
-            LAVA_JUMP_HEIGHT,
-            velocity.z
-        );
-        
-        itemEntity.setDeltaMovement(jumpVelocity);
-        itemEntity.hasImpulse = true;
-    }
-
-    private static void processJumpingOutputItems(ServerLevel level) {
-        for (var entity : level.getAllEntities()) {
-            if (!(entity instanceof ItemEntity item)) continue;
-            if (item.isRemoved() || !item.isInvulnerable()) continue;
+        if (targetPlayer != null && targetPlayer.isAlive()) {
+            boolean added = targetPlayer.getInventory().add(result);
             
-            BlockPos pos = item.blockPosition();
-            if (level.getFluidState(pos).is(Fluids.LAVA) || level.getFluidState(pos.below()).is(Fluids.LAVA)) {
-                performLavaJump(item);
+            if (added) {
+                level.playSound(null, targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getZ(), 
+                SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, 
+                ((level.random.nextFloat() - level.random.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+            } else {
+                ItemEntity dropEntity = CraftingAPI.createOutputItem(level, new Vec3(targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getZ()), result, null);
+                level.addFreshEntity(dropEntity);
             }
+        } else {
+            Vec3 teleportPosition = new Vec3(position.x, position.y + VOID_TELEPORT_HEIGHT, position.z);
+            ItemEntity resultEntity = CraftingAPI.createOutputItem(level, teleportPosition, result, null);
+            level.addFreshEntity(resultEntity);
         }
+        
+        return true;
     }
 
-    public static void addCustomRecipe(FluidConversionRecipe recipe) {
+    private static boolean isInVoid(Vec3 position) {
+        return position.y < VOID_THRESHOLD;
+    }
+
+    public static void addCustomRecipe(VoidConversionRecipe recipe) {
         customRecipes.put(recipe.getId(), recipe);
     }
     
@@ -167,19 +153,19 @@ public class FluidConversionManager {
         customRecipes.remove(recipeId);
     }
     
-    public static java.util.Collection<FluidConversionRecipe> getCustomRecipes() {
+    public static java.util.Collection<VoidConversionRecipe> getCustomRecipes() {
         return customRecipes.values();
     }
 
     private static class ConversionData {
         UUID itemId;
         Player targetPlayer;
-        FluidConversionRecipe recipe;
+        VoidConversionRecipe recipe;
         ItemStack originalItemStack;
         Vec3 position;
         int tickCount;
         
-        ConversionData(UUID itemId, Player targetPlayer, FluidConversionRecipe recipe, ItemStack originalItemStack, Vec3 position) {
+        ConversionData(UUID itemId, Player targetPlayer, VoidConversionRecipe recipe, ItemStack originalItemStack, Vec3 position) {
             this.itemId = itemId;
             this.targetPlayer = targetPlayer;
             this.recipe = recipe;

@@ -11,10 +11,10 @@ public class MoreWorldCraftingKubeJSPlugin extends KubeJSPlugin {
     public void registerRecipeSchemas(RegisterRecipeSchemasEvent event) {
         event.register(new ResourceLocation(MoreWorldCrafting.MODID, "crushing_conversion"), CrushingConversionRecipeJS.SCHEMA);
         event.register(new ResourceLocation(MoreWorldCrafting.MODID, "explosion_conversion"), ExplosionConversionRecipeJS.SCHEMA);
-        event.register(new ResourceLocation(MoreWorldCrafting.MODID, "fire_fusion"), FireFusionRecipeJS.SCHEMA);
+        event.register(new ResourceLocation(MoreWorldCrafting.MODID, "fire_conversion"), FireConversionRecipeJS.SCHEMA);
         event.register(new ResourceLocation(MoreWorldCrafting.MODID, "fluid_conversion"), FluidConversionRecipeJS.SCHEMA);
         event.register(new ResourceLocation(MoreWorldCrafting.MODID, "fluid_fusion"), FluidFusionRecipeJS.SCHEMA);
         event.register(new ResourceLocation(MoreWorldCrafting.MODID, "lightning_conversion"), LightningConversionRecipeJS.SCHEMA);
-        event.register(new ResourceLocation(MoreWorldCrafting.MODID, "void_fusion"), VoidFusionRecipeJS.SCHEMA);
+        event.register(new ResourceLocation(MoreWorldCrafting.MODID, "void_conversion"), VoidConversionRecipeJS.SCHEMA);
     }
 }

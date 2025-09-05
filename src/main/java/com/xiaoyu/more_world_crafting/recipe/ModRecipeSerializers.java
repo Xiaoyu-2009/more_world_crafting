@@ -17,11 +17,11 @@ public class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<FluidConversionRecipe>> FLUID_CONVERSION_SERIALIZER = 
         RECIPE_SERIALIZERS.register("fluid_conversion", FluidConversionRecipe.Serializer::new);
 
-    public static final RegistryObject<RecipeSerializer<VoidFusionRecipe>> VOID_FUSION_SERIALIZER = 
-        RECIPE_SERIALIZERS.register("void_fusion", VoidFusionRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<VoidConversionRecipe>> VOID_CONVERSION_SERIALIZER = 
+        RECIPE_SERIALIZERS.register("void_conversion", VoidConversionRecipe.Serializer::new);
 
-    public static final RegistryObject<RecipeSerializer<FireFusionRecipe>> FIRE_FUSION_SERIALIZER = 
-        RECIPE_SERIALIZERS.register("fire_fusion", FireFusionRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<FireConversionRecipe>> FIRE_CONVERSION_SERIALIZER = 
+        RECIPE_SERIALIZERS.register("fire_conversion", FireConversionRecipe.Serializer::new);
 
     public static final RegistryObject<RecipeSerializer<LightningConversionRecipe>> LIGHTNING_CONVERSION_SERIALIZER = 
         RECIPE_SERIALIZERS.register("lightning_conversion", LightningConversionRecipe.Serializer::new);

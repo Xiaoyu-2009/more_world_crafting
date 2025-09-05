@@ -36,7 +36,6 @@ public class LightningConversionManager {
             
             LightningConversionRecipe recipe = getRecipe(serverLevel, item.getItem());
             if (recipe != null) {
-                // 检查天气限制
                 if (!isWeatherMatching(serverLevel, recipe.getWeatherId())) {
                     continue;
                 }

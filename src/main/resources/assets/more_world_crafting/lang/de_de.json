@@ -3,13 +3,12 @@
   "jei.more_world_crafting.fusion_time": "Fusionszeit: %sSekunde",
   "jei.more_world_crafting.fluid_fusion_info": "Gegenstände müssen sich in der Flüssigkeit berühren",
   "jei.more_world_crafting.fluid_conversion": "Flüssigkeitsumwandlung",
-  "jei.more_world_crafting.success_chance": "Erfolgsrate: %s",
-  "jei.more_world_crafting.fluid_conversion_info": "Werfen Sie Gegenstände in Flüssigkeit zur Umwandlung",
-  "jei.more_world_crafting.void_fusion": "Leerenwurf",
   "jei.more_world_crafting.conversion_chance": "Umwandlungswahrscheinlichkeit: %s",
-  "jei.more_world_crafting.void_fusion_info": "Werfen Sie Gegenstände in die Leere zur Umwandlung",
-  "jei.more_world_crafting.fire_fusion": "Feuerfusion",
-  "jei.more_world_crafting.fire_fusion_info": "Werfen Sie Gegenstände ins Feuer zur Umwandlung",
+  "jei.more_world_crafting.fluid_conversion_info": "Werfen Sie Gegenstände in Flüssigkeit zur Umwandlung",
+  "jei.more_world_crafting.void_conversion": "Leerenumwandlung",
+  "jei.more_world_crafting.void_conversion_info": "Werfen Sie Gegenstände in die Leere zur Umwandlung",
+  "jei.more_world_crafting.fire_conversion": "Feuerumwandlung",
+  "jei.more_world_crafting.fire_conversion_info": "Werfen Sie Gegenstände ins Feuer zur Umwandlung",
   "jei.more_world_crafting.lightning_conversion": "Blitzumwandlung",
   "jei.more_world_crafting.lightning_absorption_chance": "Absorptionswahrscheinlichkeit: %s",
   "jei.more_world_crafting.lightning_conversion_chance": "Umwandlungswahrscheinlichkeit: %s",
@@ -18,5 +17,8 @@
   "jei.more_world_crafting.explosion_conversion_info": "Gegenstände im Explosionsbereich können umgewandelt werden",
   "jei.more_world_crafting.crushing_conversion": "Zerkleinerungsumwandlung",
   "jei.more_world_crafting.min_height": "Mindesthöhe: %s Blöcke",
-  "jei.more_world_crafting.crushing_conversion_info": "Amboss fällt aus angegebener Höhe, um Gegenstände zu zerkleinern"
+  "jei.more_world_crafting.crushing_conversion_info": "Amboss fällt aus angegebener Höhe, um Gegenstände zu zerkleinern",
+  "jei.more_world_crafting.weather.clear": "Klares Wetter",
+  "jei.more_world_crafting.weather.rain": "Regenwetter",
+  "jei.more_world_crafting.weather.thunder": "Gewitterwetter"
 }

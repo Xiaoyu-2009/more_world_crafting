@@ -27,19 +27,19 @@ public class ModRecipeTypes {
             }
         });
 
-    public static final RegistryObject<RecipeType<VoidFusionRecipe>> VOID_FUSION = 
-        RECIPE_TYPES.register("void_fusion", () -> new RecipeType<VoidFusionRecipe>() {
+    public static final RegistryObject<RecipeType<VoidConversionRecipe>> VOID_CONVERSION = 
+        RECIPE_TYPES.register("void_conversion", () -> new RecipeType<VoidConversionRecipe>() {
             @Override
             public String toString() {
-                return "void_fusion";
+                return "void_conversion";
             }
         });
 
-    public static final RegistryObject<RecipeType<FireFusionRecipe>> FIRE_FUSION = 
-        RECIPE_TYPES.register("fire_fusion", () -> new RecipeType<FireFusionRecipe>() {
+    public static final RegistryObject<RecipeType<FireConversionRecipe>> FIRE_CONVERSION = 
+        RECIPE_TYPES.register("fire_conversion", () -> new RecipeType<FireConversionRecipe>() {
             @Override
             public String toString() {
-                return "fire_fusion";
+                return "fire_conversion";
             }
         });
 

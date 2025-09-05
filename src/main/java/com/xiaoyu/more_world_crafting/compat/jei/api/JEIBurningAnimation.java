@@ -10,10 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import com.xiaoyu.more_world_crafting.recipe.FireFusionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.FireConversionRecipe;
 
 public class JEIBurningAnimation {
-    public static IDrawable create(IGuiHelper helper, FireFusionRecipe.FireType fireType) {
+    public static IDrawable create(IGuiHelper helper, FireConversionRecipe.FireType fireType) {
         switch (fireType) {
             case SOUL_FIRE:
                 return createSoulFireAnimation(helper);

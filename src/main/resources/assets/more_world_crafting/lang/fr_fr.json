@@ -3,13 +3,12 @@
   "jei.more_world_crafting.fusion_time": "Temps de Fusion: %sseconde",
   "jei.more_world_crafting.fluid_fusion_info": "Les objets doivent se toucher dans le fluide",
   "jei.more_world_crafting.fluid_conversion": "Conversion de Fluides",
-  "jei.more_world_crafting.success_chance": "Taux de Réussite: %s",
-  "jei.more_world_crafting.fluid_conversion_info": "Jetez les objets dans le fluide pour conversion",
-  "jei.more_world_crafting.void_fusion": "Lancer dans le Vide",
   "jei.more_world_crafting.conversion_chance": "Chance de Conversion: %s",
-  "jei.more_world_crafting.void_fusion_info": "Jetez les objets dans le vide pour conversion",
-  "jei.more_world_crafting.fire_fusion": "Fusion par le Feu",
-  "jei.more_world_crafting.fire_fusion_info": "Jetez les objets dans le feu pour conversion",
+  "jei.more_world_crafting.fluid_conversion_info": "Jetez les objets dans le fluide pour conversion",
+  "jei.more_world_crafting.void_conversion": "Conversion du Vide",
+  "jei.more_world_crafting.void_conversion_info": "Jetez les objets dans le vide pour conversion",
+  "jei.more_world_crafting.fire_conversion": "Conversion par le Feu",
+  "jei.more_world_crafting.fire_conversion_info": "Jetez les objets dans le feu pour conversion",
   "jei.more_world_crafting.lightning_conversion": "Conversion par Foudre",
   "jei.more_world_crafting.lightning_absorption_chance": "Chance d'Absorption: %s",
   "jei.more_world_crafting.lightning_conversion_chance": "Chance de Conversion: %s",
@@ -18,5 +17,8 @@
   "jei.more_world_crafting.explosion_conversion_info": "Les objets dans la zone d'explosion ont une chance d'être convertis",
   "jei.more_world_crafting.crushing_conversion": "Conversion par Écrasement",
   "jei.more_world_crafting.min_height": "Hauteur Min: %s blocs",
-  "jei.more_world_crafting.crushing_conversion_info": "L'enclume tombe de la hauteur spécifiée pour écraser les objets"
+  "jei.more_world_crafting.crushing_conversion_info": "L'enclume tombe de la hauteur spécifiée pour écraser les objets",
+  "jei.more_world_crafting.weather.clear": "Temps Clair",
+  "jei.more_world_crafting.weather.rain": "Temps Pluvieux",
+  "jei.more_world_crafting.weather.thunder": "Temps Orageux"
 }

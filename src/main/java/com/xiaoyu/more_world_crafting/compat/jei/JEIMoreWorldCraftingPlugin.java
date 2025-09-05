@@ -9,11 +9,11 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
 import com.xiaoyu.more_world_crafting.recipe.CrushingConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.ExplosionConversionRecipe;
-import com.xiaoyu.more_world_crafting.recipe.FireFusionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.FireConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.FluidConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.LightningConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
-import com.xiaoyu.more_world_crafting.recipe.VoidFusionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.VoidConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.FluidFusionRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -33,8 +33,8 @@ public class JEIMoreWorldCraftingPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new FluidFusionCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new FluidConversionCategory(registration.getJeiHelpers().getGuiHelper()));
-        registration.addRecipeCategories(new VoidFusionCategory(registration.getJeiHelpers().getGuiHelper()));
-        registration.addRecipeCategories(new FireFusionCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new VoidConversionCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new FireConversionCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new LightningConversionCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new ExplosionConversionCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CrushingConversionCategory(registration.getJeiHelpers().getGuiHelper()));
@@ -52,13 +52,13 @@ public class JEIMoreWorldCraftingPlugin implements IModPlugin {
         fluidConversionRecipes.addAll(FluidConversionManager.getCustomRecipes());
         registration.addRecipes(FluidConversionCategory.FLUID_CONVERSION_TYPE, fluidConversionRecipes);
         
-        List<VoidFusionRecipe> voidFusionRecipes = new ArrayList<>(recipeManager.getAllRecipesFor(ModRecipeTypes.VOID_FUSION.get()));
-        voidFusionRecipes.addAll(VoidFusionManager.getCustomRecipes());
-        registration.addRecipes(VoidFusionCategory.VOID_FUSION_TYPE, voidFusionRecipes);
+        List<VoidConversionRecipe> voidConversionRecipes = new ArrayList<>(recipeManager.getAllRecipesFor(ModRecipeTypes.VOID_CONVERSION.get()));
+        voidConversionRecipes.addAll(VoidConversionManager.getCustomRecipes());
+        registration.addRecipes(VoidConversionCategory.VOID_CONVERSION_TYPE, voidConversionRecipes);
         
-        List<FireFusionRecipe> fireFusionRecipes = new ArrayList<>(recipeManager.getAllRecipesFor(ModRecipeTypes.FIRE_FUSION.get()));
-        fireFusionRecipes.addAll(FireFusionManager.getCustomRecipes());
-        registration.addRecipes(FireFusionCategory.FIRE_FUSION_TYPE, fireFusionRecipes);
+        List<FireConversionRecipe> fireConversionRecipes = new ArrayList<>(recipeManager.getAllRecipesFor(ModRecipeTypes.FIRE_CONVERSION.get()));
+        fireConversionRecipes.addAll(FireConversionManager.getCustomRecipes());
+        registration.addRecipes(FireConversionCategory.FIRE_CONVERSION_TYPE, fireConversionRecipes);
         
         List<LightningConversionRecipe> lightningConversionRecipes = new ArrayList<>(recipeManager.getAllRecipesFor(ModRecipeTypes.LIGHTNING_CONVERSION.get()));
         lightningConversionRecipes.addAll(LightningConversionManager.getCustomRecipes());

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.xiaoyu.more_world_crafting.recipe.FluidConversionRecipe;
+import com.xiaoyu.more_world_crafting.recipe.FireConversionRecipe;
 import com.xiaoyu.more_world_crafting.recipe.ModRecipeTypes;
 
 import net.minecraft.core.BlockPos;
@@ -17,14 +17,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-public class FluidConversionManager {
+public class FireConversionManager {
     private static final Map<UUID, ConversionData> pendingConversions = new HashMap<>();
-    private static final Map<ResourceLocation, FluidConversionRecipe> customRecipes = new HashMap<>();
-    private static final double LAVA_JUMP_HEIGHT = 0.8;
-    private static final int CONVERSION_DELAY = 20;
+    private static final Map<ResourceLocation, FireConversionRecipe> customRecipes = new HashMap<>();
+    private static final double FIRE_JUMP_HEIGHT = 0.8;
+    private static final int CONVERSION_DELAY = 10;
 
     public static void tick(Level level) {
         if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
@@ -33,8 +33,8 @@ public class FluidConversionManager {
             if (!(entity instanceof ItemEntity item)) continue;
             if (item.isRemoved() || item.getItem().isEmpty()) continue;
             
-            FluidConversionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
-            if (recipe != null && isInCorrectFluid(serverLevel, item.position(), recipe)) {
+            FireConversionRecipe recipe = findMatchingRecipe(serverLevel, item.getItem());
+            if (recipe != null && isCorrectFireType(serverLevel, item.position(), recipe.getFireType())) {
                 UUID itemId = item.getUUID();
                 if (!pendingConversions.containsKey(itemId)) {
                     Player targetPlayer = getItemThrower(item);
@@ -57,16 +57,22 @@ public class FluidConversionManager {
             data.tickCount++;
             
             if (data.tickCount >= CONVERSION_DELAY) {
-                boolean itemFound = false;
+                ItemEntity targetItem = null;
                 for (var entity : level.getAllEntities()) {
                     if (entity instanceof ItemEntity item && item.getUUID().equals(data.itemId) && !item.isRemoved()) {
-                        item.discard();
-                        itemFound = true;
+                        targetItem = item;
                         break;
                     }
                 }
                 
-                if (itemFound) {
+                if (targetItem != null) {
+                    if (isCorrectFireType(level, targetItem.position(), data.recipe.getFireType())) {
+                        boolean conversionSuccess = performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
+                        if (conversionSuccess) {
+                            targetItem.discard();
+                        }
+                    }
+                } else {
                     performConversion(level, data.originalItemStack, data.recipe, data.targetPlayer, data.position);
                 }
 
@@ -82,15 +88,15 @@ public class FluidConversionManager {
         return null;
     }
 
-    private static FluidConversionRecipe findMatchingRecipe(ServerLevel level, ItemStack itemStack) {
-        List<FluidConversionRecipe> allRecipes = new ArrayList<>();
+    private static FireConversionRecipe findMatchingRecipe(ServerLevel level, ItemStack itemStack) {
+        List<FireConversionRecipe> allRecipes = new ArrayList<>();
         
-        List<FluidConversionRecipe> datapackRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.FLUID_CONVERSION.get());
+        List<FireConversionRecipe> datapackRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.FIRE_CONVERSION.get());
         allRecipes.addAll(datapackRecipes);
         
         allRecipes.addAll(customRecipes.values());
         
-        for (FluidConversionRecipe recipe : allRecipes) {
+        for (FireConversionRecipe recipe : allRecipes) {
             if (recipe.getIngredient().test(itemStack)) {
                 return recipe;
             }
@@ -99,7 +105,7 @@ public class FluidConversionManager {
         return null;
     }
 
-    private static boolean performConversion(ServerLevel level, ItemStack originalStack, FluidConversionRecipe recipe, Player targetPlayer, Vec3 position) {
+    private static boolean performConversion(ServerLevel level, ItemStack originalStack, FireConversionRecipe recipe, Player targetPlayer, Vec3 position) {
         int inputCount = originalStack.getCount();
         
         if (inputCount <= 0) {
@@ -121,25 +127,38 @@ public class FluidConversionManager {
         int totalResultCount = Math.max(1, successfulConversions * resultPerInput);
         result.setCount(totalResultCount);
 
-        ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, position, result, null, LAVA_JUMP_HEIGHT);
+        ItemEntity resultEntity = CraftingAPI.createOutputItemWithJump(level, position, result, null, FIRE_JUMP_HEIGHT);
         
         return level.addFreshEntity(resultEntity);
     }
 
-    private static boolean isInCorrectFluid(ServerLevel level, Vec3 position, FluidConversionRecipe recipe) {
+    private static boolean isCorrectFireType(ServerLevel level, Vec3 position, FireConversionRecipe.FireType fireType) {
         BlockPos pos = BlockPos.containing(position);
         BlockPos posBelow = pos.below();
         
-        return 
-        level.getFluidState(pos).is(recipe.getRequiredFluid()) || 
-        level.getFluidState(posBelow).is(recipe.getRequiredFluid());
+        switch (fireType) {
+            case NORMAL_FIRE:
+                return level.getBlockState(pos).is(Blocks.FIRE) || 
+                       level.getBlockState(posBelow).is(Blocks.FIRE);
+            case SOUL_FIRE:
+                return level.getBlockState(pos).is(Blocks.SOUL_FIRE) ||
+                       level.getBlockState(posBelow).is(Blocks.SOUL_FIRE);
+            case CAMPFIRE:
+                return level.getBlockState(pos).is(Blocks.CAMPFIRE) ||
+                       level.getBlockState(posBelow).is(Blocks.CAMPFIRE);
+            case SOUL_CAMPFIRE:
+                return level.getBlockState(pos).is(Blocks.SOUL_CAMPFIRE) ||
+                       level.getBlockState(posBelow).is(Blocks.SOUL_CAMPFIRE);
+            default:
+                return false;
+        }
     }
 
-    private static void performLavaJump(ItemEntity itemEntity) {
+    private static void performFireJump(ItemEntity itemEntity) {
         Vec3 velocity = itemEntity.getDeltaMovement();
         Vec3 jumpVelocity = new Vec3(
             velocity.x,
-            LAVA_JUMP_HEIGHT,
+            FIRE_JUMP_HEIGHT,
             velocity.z
         );
         
@@ -153,13 +172,24 @@ public class FluidConversionManager {
             if (item.isRemoved() || !item.isInvulnerable()) continue;
             
             BlockPos pos = item.blockPosition();
-            if (level.getFluidState(pos).is(Fluids.LAVA) || level.getFluidState(pos.below()).is(Fluids.LAVA)) {
-                performLavaJump(item);
+            if (isInFireEnvironment(level, pos)) {
+                performFireJump(item);
             }
         }
     }
 
-    public static void addCustomRecipe(FluidConversionRecipe recipe) {
+    private static boolean isInFireEnvironment(ServerLevel level, BlockPos pos) {
+        return level.getBlockState(pos).is(Blocks.FIRE) ||
+               level.getBlockState(pos).is(Blocks.SOUL_FIRE) ||
+               level.getBlockState(pos).is(Blocks.CAMPFIRE) ||
+               level.getBlockState(pos).is(Blocks.SOUL_CAMPFIRE) ||
+               level.getBlockState(pos.below()).is(Blocks.FIRE) ||
+               level.getBlockState(pos.below()).is(Blocks.SOUL_FIRE) ||
+               level.getBlockState(pos.below()).is(Blocks.CAMPFIRE) ||
+               level.getBlockState(pos.below()).is(Blocks.SOUL_CAMPFIRE);
+    }
+
+    public static void addCustomRecipe(FireConversionRecipe recipe) {
         customRecipes.put(recipe.getId(), recipe);
     }
     
@@ -167,19 +197,19 @@ public class FluidConversionManager {
         customRecipes.remove(recipeId);
     }
     
-    public static java.util.Collection<FluidConversionRecipe> getCustomRecipes() {
+    public static java.util.Collection<FireConversionRecipe> getCustomRecipes() {
         return customRecipes.values();
     }
 
     private static class ConversionData {
         UUID itemId;
         Player targetPlayer;
-        FluidConversionRecipe recipe;
+        FireConversionRecipe recipe;
         ItemStack originalItemStack;
         Vec3 position;
         int tickCount;
         
-        ConversionData(UUID itemId, Player targetPlayer, FluidConversionRecipe recipe, ItemStack originalItemStack, Vec3 position) {
+        ConversionData(UUID itemId, Player targetPlayer, FireConversionRecipe recipe, ItemStack originalItemStack, Vec3 position) {
             this.itemId = itemId;
             this.targetPlayer = targetPlayer;
             this.recipe = recipe;

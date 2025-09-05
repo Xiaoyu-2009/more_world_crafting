@@ -7,11 +7,11 @@ import net.minecraftforge.fml.common.Mod;
 import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
 import com.xiaoyu.more_world_crafting.crafting.CrushingConversionManager;
 import com.xiaoyu.more_world_crafting.crafting.ExplosionConversionManager;
-import com.xiaoyu.more_world_crafting.crafting.FireFusionManager;
+import com.xiaoyu.more_world_crafting.crafting.FireConversionManager;
 import com.xiaoyu.more_world_crafting.crafting.FluidConversionManager;
 import com.xiaoyu.more_world_crafting.crafting.FluidFusionManager;
 import com.xiaoyu.more_world_crafting.crafting.LightningConversionManager;
-import com.xiaoyu.more_world_crafting.crafting.VoidFusionManager;
+import com.xiaoyu.more_world_crafting.crafting.VoidConversionManager;
 import net.minecraft.world.entity.LightningBolt;
 
 @Mod.EventBusSubscriber(modid = MoreWorldCrafting.MODID)
@@ -25,8 +25,8 @@ public class CraftingEventHandler {
         event.getServer().getAllLevels().forEach(level -> {
             FluidFusionManager.tick(level);
             FluidConversionManager.tick(level);
-            VoidFusionManager.tick(level);
-            FireFusionManager.tick(level);
+            VoidConversionManager.tick(level);
+            FireConversionManager.tick(level);
             LightningConversionManager.tick(level);
             ExplosionConversionManager.tick(level);
             CrushingConversionManager.tick(level);

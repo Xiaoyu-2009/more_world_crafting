@@ -62,7 +62,6 @@ public class CraftingAPI {
                 successfulConversions++;
             }
         }
-        
         return successfulConversions;
     }
 }
