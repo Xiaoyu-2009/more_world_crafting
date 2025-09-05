@@ -17,3 +17,21 @@
 5. **闪电转换** - 通过闪电进行转换
 6. **爆炸转换** - 利用爆炸进行转换
 7. **粉碎转换** - 使用重力方块砸落进行转换
+
+---
+
+## English
+
+### Mod Overview
+
+**This mod adds 7 crafting types to Minecraft, supporting both [KubeJS](#kubejs-recipe-examples) and [CraftTweaker](#crafttweaker-recipe-examples) scripting.**
+
+### Crafting Types
+
+1. **Fluid Fusion** - Fuse multiple items by throwing them into specified fluids
+2. **Fluid Conversion** - Convert single items in specified fluids
+3. **Void Conversion** - Convert items in the void depths (Y-axis -65)
+4. **Fire Conversion** - Convert items using flame types
+5. **Lightning Conversion** - Convert items through lightning strikes
+6. **Explosion Conversion** - Convert items using explosions
+7. **Crushing Conversion** - Convert items by dropping gravity blocks
