@@ -1,6 +1,9 @@
 package com.xiaoyu.more_world_crafting.recipe;
 
+import javax.annotation.Nullable;
+
 import com.google.gson.JsonObject;
+
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -13,22 +16,22 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
-
 public class LightningConversionRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private final Ingredient ingredient;
     private final ItemStack result;
     private final float lightningChance;
     private final float conversionChance;
+    private final String weatherId;
 
     public LightningConversionRecipe(ResourceLocation id, Ingredient ingredient, ItemStack result, 
-    float lightningChance, float conversionChance) {
+    float lightningChance, float conversionChance, String weatherId) {
         this.id = id;
         this.ingredient = ingredient;
         this.result = result;
         this.lightningChance = lightningChance;
         this.conversionChance = conversionChance;
+        this.weatherId = weatherId != null ? weatherId : "";
     }
 
     public Ingredient getIngredient() {
@@ -41,6 +44,10 @@ public class LightningConversionRecipe implements Recipe<Container> {
 
     public float getConversionChance() {
         return conversionChance;
+    }
+
+    public String getWeatherId() {
+        return weatherId;
     }
 
 
@@ -93,8 +100,9 @@ public class LightningConversionRecipe implements Recipe<Container> {
 
             float lightningChance = GsonHelper.getAsFloat(json, "lightning_chance", 0.1f);
             float conversionChance = GsonHelper.getAsFloat(json, "conversion_chance", 1.0f);
+            String weatherId = GsonHelper.getAsString(json, "weather_id", "");
 
-            return new LightningConversionRecipe(recipeId, ingredient, result, lightningChance, conversionChance);
+            return new LightningConversionRecipe(recipeId, ingredient, result, lightningChance, conversionChance, weatherId);
         }
 
         @Override
@@ -103,8 +111,9 @@ public class LightningConversionRecipe implements Recipe<Container> {
             ItemStack result = buffer.readItem();
             float lightningChance = buffer.readFloat();
             float conversionChance = buffer.readFloat();
+            String weatherId = buffer.readUtf();
 
-            return new LightningConversionRecipe(recipeId, ingredient, result, lightningChance, conversionChance);
+            return new LightningConversionRecipe(recipeId, ingredient, result, lightningChance, conversionChance, weatherId);
         }
 
         @Override
@@ -113,6 +122,7 @@ public class LightningConversionRecipe implements Recipe<Container> {
             buffer.writeItem(recipe.result);
             buffer.writeFloat(recipe.lightningChance);
             buffer.writeFloat(recipe.conversionChance);
+            buffer.writeUtf(recipe.weatherId);
         }
     }
 }

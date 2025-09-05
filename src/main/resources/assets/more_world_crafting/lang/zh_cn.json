@@ -17,5 +17,8 @@
   "jei.more_world_crafting.explosion_conversion_info": "物品在爆炸范围内有概率进行转换",
   "jei.more_world_crafting.crushing_conversion": "粉碎转换",
   "jei.more_world_crafting.min_height": "最小高度: %s格",
-  "jei.more_world_crafting.crushing_conversion_info": "铁砧从指定高度落下砸中物品进行转换"
+  "jei.more_world_crafting.crushing_conversion_info": "铁砧从指定高度落下砸中物品进行转换",
+  "jei.more_world_crafting.weather.clear": "晴天",
+  "jei.more_world_crafting.weather.rain": "雨天",
+  "jei.more_world_crafting.weather.thunder": "雷雨天"
 }

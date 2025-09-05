@@ -1,8 +1,15 @@
 package com.xiaoyu.more_world_crafting.compat.jei.category;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Nullable;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
+import com.xiaoyu.more_world_crafting.compat.jei.api.JEIDrawHelper;
+import com.xiaoyu.more_world_crafting.recipe.LightningConversionRecipe;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -19,22 +26,24 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import com.xiaoyu.more_world_crafting.MoreWorldCrafting;
-import com.xiaoyu.more_world_crafting.compat.jei.api.JEIDrawHelper;
-import com.xiaoyu.more_world_crafting.recipe.LightningConversionRecipe;
 
 public class LightningConversionCategory implements IRecipeCategory<LightningConversionRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(MoreWorldCrafting.MODID, "lightning_conversion");
     public static final RecipeType<LightningConversionRecipe> LIGHTNING_CONVERSION_TYPE = new RecipeType<>(UID, LightningConversionRecipe.class);
 
+    private static final int WEATHER_X = 133;
+    private static final int WEATHER_Y = 1;
+
     private final IDrawable background;
     private final IDrawable icon;
     private final JEIDrawHelper drawHelper;
+    private final IGuiHelper guiHelper;
 
     public LightningConversionCategory(IGuiHelper helper) {
         this.background = helper.createBlankDrawable(150, 70);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.LIGHTNING_ROD));
         this.drawHelper = new JEIDrawHelper(helper);
+        this.guiHelper = helper;
     }
 
     @Override
@@ -92,5 +101,70 @@ public class LightningConversionCategory implements IRecipeCategory<LightningCon
         
         int conversionTextX = attractTextX;
         guiGraphics.drawString(Minecraft.getInstance().font, conversionText, conversionTextX, 55, 0x555555, false);
+
+        drawWeatherSlotAndIcon(guiGraphics, recipe.getWeatherId());
+    }
+    
+    private void drawWeatherSlotAndIcon(GuiGraphics guiGraphics, String weatherId) {
+        if (weatherId == null || weatherId.isEmpty()) {
+            return;
+        }
+
+        int slotX = WEATHER_X - 1;
+        int slotY = WEATHER_Y - 1;
+
+        drawHelper.drawSlot(guiGraphics, slotX, slotY);
+
+        String iconName = getWeatherIconName(weatherId);
+        if (iconName != null) {
+            ResourceLocation weatherIconLocation = new ResourceLocation(MoreWorldCrafting.MODID, "textures/icon/weather/" + iconName + ".png");
+            int iconSize = 16;
+
+            RenderSystem.setShaderTexture(0, weatherIconLocation);
+            guiGraphics.blit(weatherIconLocation, WEATHER_X, WEATHER_Y, 0, 0, iconSize, iconSize, iconSize, iconSize);
+        }
+    }
+    
+    private String getWeatherIconName(String weatherId) {
+        switch (weatherId) {
+            case "minecraft:clear":
+                return "clear";
+            case "minecraft:rain":
+                return "rain";
+            case "minecraft:thunder":
+                return "thunder";
+            default:
+                return null;
+        }
+    }
+    
+    private Component getWeatherName(String weatherId) {
+        switch (weatherId) {
+            case "minecraft:clear":
+                return Component.translatable("jei.more_world_crafting.weather.clear");
+            case "minecraft:rain":
+                return Component.translatable("jei.more_world_crafting.weather.rain");
+            case "minecraft:thunder":
+                return Component.translatable("jei.more_world_crafting.weather.thunder");
+            default:
+                return null;
+        }
+    }
+    
+    @Override
+    public List<Component> getTooltipStrings(LightningConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        List<Component> tooltips = new ArrayList<>();
+
+        if (recipe.getWeatherId() != null && !recipe.getWeatherId().isEmpty()) {
+            int iconSize = 16;
+            
+            if (mouseX >= WEATHER_X && mouseX < WEATHER_X + iconSize && mouseY >= WEATHER_Y && mouseY < WEATHER_Y + iconSize) {
+                Component weatherName = getWeatherName(recipe.getWeatherId());
+                if (weatherName != null) {
+                    tooltips.add(weatherName);
+                }
+            }
+        }
+        return tooltips;
     }
 }

@@ -18,5 +18,8 @@
   "jei.more_world_crafting.explosion_conversion_info": "Items within explosion range have a chance to be converted",
   "jei.more_world_crafting.crushing_conversion": "Crushing Conversion",
   "jei.more_world_crafting.min_height": "Min Height: %s blocks",
-  "jei.more_world_crafting.crushing_conversion_info": "Anvil falls from specified height to crush items for conversion"
+  "jei.more_world_crafting.crushing_conversion_info": "Anvil falls from specified height to crush items for conversion",
+  "jei.more_world_crafting.weather.clear": "Clear Weather",
+  "jei.more_world_crafting.weather.rain": "Rainy Weather",
+  "jei.more_world_crafting.weather.thunder": "Thunder Weather"
 }

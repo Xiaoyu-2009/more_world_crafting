@@ -9,7 +9,7 @@ public class ModConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.BooleanValue LIGHTNING_CONVERSION_ATTRACTS_LIGHTNING;
-    public static final ForgeConfigSpec.BooleanValue THUNDERSTORM_DETECTION;
+
     public static final ForgeConfigSpec.BooleanValue OUTPUT_ITEM_GLOW_ENABLED;
     public static final ForgeConfigSpec.BooleanValue OUTPUT_ITEM_NAME_DISPLAY_ENABLED;
     public static final ForgeConfigSpec.BooleanValue OUTPUT_ITEM_SPAWN_JUMP_ENABLED;
@@ -20,9 +20,6 @@ public class ModConfig {
         LIGHTNING_CONVERSION_ATTRACTS_LIGHTNING = BUILDER
                 .comment(" Whether lightning conversion will attract lightning")
                 .define("lightning_conversion_attracts_lightning", true);
-        THUNDERSTORM_DETECTION = BUILDER
-                .comment(" Thunderstorm detection")
-                .define("thunderstorm_detection", true);
         BUILDER.pop();
 
         BUILDER.push("General Output Item Config");

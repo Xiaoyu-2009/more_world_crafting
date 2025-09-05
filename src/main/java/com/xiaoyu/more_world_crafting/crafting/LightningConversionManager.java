@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class LightningConversionManager {
@@ -35,7 +36,8 @@ public class LightningConversionManager {
             
             LightningConversionRecipe recipe = getRecipe(serverLevel, item.getItem());
             if (recipe != null) {
-                if (ModConfig.THUNDERSTORM_DETECTION.get() && !serverLevel.isThundering()) {
+                // 检查天气限制
+                if (!isWeatherMatching(serverLevel, recipe.getWeatherId())) {
                     continue;
                 }
                 
@@ -99,5 +101,47 @@ public class LightningConversionManager {
     
     public static java.util.Collection<LightningConversionRecipe> getCustomRecipes() {
         return customRecipes.values();
+    }
+    
+    public static void handleLightningStrike(LightningBolt lightning) {
+        if (lightning.level().isClientSide() || !(lightning.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        
+        Vec3 lightningPos = lightning.position();
+        double searchRadius = 3.0;
+        
+        AABB searchArea = new AABB(
+            lightningPos.x - searchRadius, lightningPos.y - searchRadius, lightningPos.z - searchRadius,
+            lightningPos.x + searchRadius, lightningPos.y + searchRadius, lightningPos.z + searchRadius
+        );
+        
+        for (var entity : serverLevel.getEntitiesOfClass(ItemEntity.class, searchArea)) {
+            if (entity.getItem().isEmpty()) continue;
+            
+            LightningConversionRecipe recipe = getRecipe(serverLevel, entity.getItem());
+            if (recipe != null) {
+                if (convertItem(serverLevel, entity, recipe)) {
+                    entity.discard();
+                }
+            }
+        }
+    }
+    
+    private static boolean isWeatherMatching(ServerLevel level, String weatherId) {
+        if (weatherId == null || weatherId.isEmpty()) {
+            return true;
+        }
+        
+        switch (weatherId) {
+            case "minecraft:clear":
+                return !level.isRaining() && !level.isThundering();
+            case "minecraft:rain":
+                return level.isRaining() && !level.isThundering();
+            case "minecraft:thunder":
+                return level.isThundering();
+            default:
+                return true;
+        }
     }
 }

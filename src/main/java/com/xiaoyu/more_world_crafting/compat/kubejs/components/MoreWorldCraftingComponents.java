@@ -1,7 +1,8 @@
 package com.xiaoyu.more_world_crafting.compat.kubejs.components;
 
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
-import dev.latvian.mods.kubejs.recipe.component.*;
+import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
+import dev.latvian.mods.kubejs.recipe.component.StringComponent;
 
 public class MoreWorldCraftingComponents {
 
@@ -20,4 +21,6 @@ public class MoreWorldCraftingComponents {
     public static final RecipeKey<Integer> FUSION_TIME = NumberComponent.INT.key("fusion_time").optional(60);
     
     public static final RecipeKey<Float> LIGHTNING_CHANCE = NumberComponent.FLOAT.key("lightning_chance").optional(0.1f);
+    
+    public static final RecipeKey<String> WEATHER_ID = StringComponent.ANY.key("weather_id").optional("");
 }

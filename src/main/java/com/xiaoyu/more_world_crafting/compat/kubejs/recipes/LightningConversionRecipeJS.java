@@ -1,6 +1,7 @@
 package com.xiaoyu.more_world_crafting.compat.kubejs.recipes;
 
 import com.xiaoyu.more_world_crafting.compat.kubejs.components.MoreWorldCraftingComponents;
+
 import dev.latvian.mods.kubejs.item.InputItem;
 import dev.latvian.mods.kubejs.item.OutputItem;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
@@ -17,5 +18,7 @@ public interface LightningConversionRecipeJS {
 
     RecipeKey<Float> CONVERSION_CHANCE = MoreWorldCraftingComponents.CONVERSION_CHANCE;
 
-    RecipeSchema SCHEMA = new RecipeSchema(INGREDIENT, RESULT, LIGHTNING_CHANCE, CONVERSION_CHANCE);
+    RecipeKey<String> WEATHER_ID = MoreWorldCraftingComponents.WEATHER_ID;
+
+    RecipeSchema SCHEMA = new RecipeSchema(INGREDIENT, RESULT, LIGHTNING_CHANCE, CONVERSION_CHANCE, WEATHER_ID);
 }
