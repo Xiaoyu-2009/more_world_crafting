@@ -6,7 +6,7 @@
 
 ### Mod Overview
 
-**This mod adds 7 crafting types to Minecraft, supporting both [KubeJS](#kubejs-recipe-examples) and [CraftTweaker](#crafttweaker-recipe-examples) scripting.**
+**This mod adds 7 crafting types to Minecraft, supporting both [KubeJS](https://kubejs.com/wiki/tutorials) and [CraftTweaker](https://docs.blamejared.com/1.20.1) scripting.**
 
 ### Crafting Types
 
@@ -35,3 +35,4 @@
 5. **闪电转换** - 通过闪电进行转换
 6. **爆炸转换** - 利用爆炸进行转换
 7. **粉碎转换** - 使用重力方块砸落进行转换
+
